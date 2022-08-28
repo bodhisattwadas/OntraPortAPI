@@ -51,7 +51,7 @@ class OPApiController extends Controller
                     'id' => $element['f2106'],
                     'listFields' => 'firstname,lastname,sms_number,email'
                 ]);
-                //Log::debug($personDetails);
+                
                 $childArray['access_person_f_name'] = $personDetails['data']['firstname'];
                 $childArray['access_person_l_name'] = $personDetails['data']['lastname'];
                 $childArray['access_person_sms'] = $personDetails['data']['sms_number'];
