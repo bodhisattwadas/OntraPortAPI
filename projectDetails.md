@@ -11,9 +11,9 @@
 11.	            "266": "Canceled",
 12.	            "267": "Reschedule",
 13.	            "268": "Inspection Completed",
-14.	            "269": "Booked",*
-15.	            "270": "To Be Scheduled",*
-16.	            "271": "Access Details Required",*
+14.	               "269": "Booked",*
+15.	               "270": "To Be Scheduled",*
+16.	               "271": "Access Details Required",*
 17.	            "471": "Scheduled in Calendar",
 18.	            "473": "Not required",
 19.	            "553": "Removed from GCal",
@@ -62,5 +62,12 @@
             "391": "Client"
           }
         },
+            "0" =>"N/A"
+            "386" => "Other",
+            "387" => "Builder",
+            "388" => "Developer",
+            "389" => "Tenant",
+            "390" => "Property Manager",
+            "391" => "Client"
 
 

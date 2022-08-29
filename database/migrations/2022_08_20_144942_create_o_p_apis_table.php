@@ -18,10 +18,13 @@ return new class extends Migration
             $table->string("job_id")->unique();   
             $table->string("client_f_name")->nullable();   
             $table->string("client_l_name")->nullable(); 
+            $table->string("client_state")->nullable(); 
             $table->string("inspection_status")->nullable(); 
+            $table->string("inspection_status_name")->nullable(); 
 
-            $table->string("access_details")->nullable();   
+            $table->text("access_details")->nullable();   
             $table->string("access_person_type")->nullable();   
+            $table->string("access_person_type_name")->nullable();   
 
             $table->string("access_person_f_name")->nullable();   
             $table->string("access_person_l_name")->nullable();   
@@ -30,7 +33,8 @@ return new class extends Migration
 
             $table->text("ontraport_link")->nullable();   
             
-            $table->datetime("date_of_inspection")->nullable();   
+            $table->string("date_of_inspection")->nullable();   
+            //$table->datetime("date_of_inspection")->nullable();   
             $table->timestamps();
         });
     }
