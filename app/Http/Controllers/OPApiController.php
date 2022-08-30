@@ -26,8 +26,7 @@ class OPApiController extends Controller
         SettingsModel::where('id',1)->update(['start'=>$start+$range]);
     }
    
-    private function _getDetails($inspectionStatus,$start,$range)
-    {
+    private function _getDetails($inspectionStatus,$start,$range){
         $inspectionStatusArray = ['269'=>'Booked','270'=>'To Be Scheduled','271'=>'Access Details Required'];
         $accessPersonTypeArray = [ "0" =>"N/A",
                                     "386" => "Other",
@@ -74,11 +73,13 @@ class OPApiController extends Controller
                 $childArray['access_person_l_name'] = $personDetails['data']['lastname'];
                 $childArray['access_person_sms'] = $personDetails['data']['sms_number'];
                 $childArray['access_person_email'] = $personDetails['data']['email'];
+                // $childArray['client_state'] = $personDetails['data']['state'];
             }else{
                 $childArray['access_person_f_name'] = "";
                 $childArray['access_person_l_name'] = "";
                 $childArray['access_person_sms'] = "";
                 $childArray['access_person_email'] = "";
+                // $childArray['client_state'] = "";
             }
             $childArray['ontraport_link'] = "https://app.ontraport.com/#!/o_jobs10006/edit&id=".$element['id'];
             $childArray['date_of_inspection'] = $element['f2011'];
@@ -108,71 +109,5 @@ class OPApiController extends Controller
         }
         //print_r($parentArray);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    
-    public function create()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreOPApiRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreOPApiRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\OPApi  $oPApi
-     * @return \Illuminate\Http\Response
-     */
-    public function show(OPApi $oPApi)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\OPApi  $oPApi
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(OPApi $oPApi)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateOPApiRequest  $request
-     * @param  \App\Models\OPApi  $oPApi
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateOPApiRequest $request, OPApi $oPApi)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\OPApi  $oPApi
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(OPApi $oPApi)
-    {
-        //
-    }
+   
 }
