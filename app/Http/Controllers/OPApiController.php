@@ -145,7 +145,8 @@ class OPApiController extends Controller
                 'client_f_name' => $childArray['client_f_name'],
                 'client_l_name' => $childArray['client_l_name'],
 
-                'suburb_state' => $stateCodeArray[$childArray['suburb_state']],
+                //'suburb_state' => $stateCodeArray[$childArray['suburb_state']],
+                'suburb_state' => (array_key_exists($childArray['suburb_state'],$stateCodeArray))?$stateCodeArray[$childArray['suburb_state']]:'',
                 'suburb_lat' => $childArray['suburb_lat'],
                 'suburb_long' => $childArray['suburb_long'],
 
