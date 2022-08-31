@@ -18,9 +18,16 @@ return new class extends Migration
             $table->string("job_id")->unique();   
             $table->string("client_f_name")->nullable();   
             $table->string("client_l_name")->nullable(); 
-            $table->string("client_state")->nullable(); 
+
             $table->string("inspection_status")->nullable(); 
-            $table->string("inspection_status_name")->nullable(); 
+            $table->string("inspection_status_name")->nullable();
+            
+            $table->string("suburb_state")->nullable(); 
+            $table->string("suburb_lat")->nullable(); 
+            $table->string("suburb_long")->nullable(); 
+
+            //'suburb_state','suburb_lat','suburb_long'
+            
 
             $table->text("access_details")->nullable();   
             $table->string("access_person_type")->nullable();   
