@@ -25,7 +25,12 @@ class OPApiController extends Controller
         $this->_getDetails('270',$start,$range);
         $this->_getDetails('271',$start,$range);
 
-        SettingsModel::where('id',1)->update(['start'=>$start+$range]);
+        if($start<5000){
+            SettingsModel::where('id',1)->update(['start'=>$start+$range]);
+        }else{
+            SettingsModel::where('id',1)->update(['start'=>1]);
+        }
+        
     }
    
     private function _getDetails($inspectionStatus,$start,$range){
@@ -140,12 +145,14 @@ class OPApiController extends Controller
             /**
              * Database insert
              */
-            $opapi = new OPApi([
-                'job_id' => $childArray['job_id'],
+            $opapi = OPApi::updateOrCreate(
+                [
+                    'job_id' => $childArray['job_id'],
+                ],
+                [
                 'client_f_name' => $childArray['client_f_name'],
                 'client_l_name' => $childArray['client_l_name'],
 
-                //'suburb_state' => $stateCodeArray[$childArray['suburb_state']],
                 'suburb_state' => (array_key_exists($childArray['suburb_state'],$stateCodeArray))?$stateCodeArray[$childArray['suburb_state']]:'',
                 'suburb_lat' => $childArray['suburb_lat'],
                 'suburb_long' => $childArray['suburb_long'],
@@ -163,7 +170,7 @@ class OPApiController extends Controller
                 'ontraport_link' => $childArray['ontraport_link'],
                 'date_of_inspection' => $childArray['date_of_inspection']
             ]);
-            if(OpApi::where('job_id',$childArray['job_id'])->get()->count() == 0) $opapi->save();
+            //if(OpApi::where('job_id',$childArray['job_id'])->get()->count() == 0) $opapi->save();
         }
         //print_r($parentArray);
     }
