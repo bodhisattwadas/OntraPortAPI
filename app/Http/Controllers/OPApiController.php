@@ -20,12 +20,13 @@ class OPApiController extends Controller
     public function _fetchDetails(){
         $start = SettingsModel::where('id',1)->get()->first()->start;
         $range = SettingsModel::where('id',1)->get()->first()->range;
+        $upperLimit = SettingsModel::where('id',1)->get()->first()->upperLimit;
        
         $this->_getDetails('269',$start,$range);
         $this->_getDetails('270',$start,$range);
         $this->_getDetails('271',$start,$range);
 
-        if($start<5000){
+        if($start<$upperLimit){
             SettingsModel::where('id',1)->update(['start'=>$start+$range]);
         }else{
             SettingsModel::where('id',1)->update(['start'=>1]);

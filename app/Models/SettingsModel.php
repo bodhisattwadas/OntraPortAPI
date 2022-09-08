@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class SettingsModel extends Model
 {
     use HasFactory;
-    protected $fillable = ['start','range'];
+    protected $fillable = ['start','range','upperLimit'];
 }
