@@ -107,15 +107,35 @@ class OPApiController extends Controller
             Log::debug("PropertyDetails : ".$element['f2050']);
 
             
-
+            /**
+             * f2687 : suburb
+             * f2044 : address-1
+             * f2045 : address-2
+             * f2139 : postal-code
+             * f2051 : state
+             * f2048 : country
+             */
             if(array_key_exists('f2050',$element) && $element['f2050'] != 0){
                 $propertyDetails =  Http::acceptJson()->get('https://api.ontraport.com/1/Property',[
                     'Api-Appid' => '2_97024_DalLz1gO5',
                     'Api-Key' => 'xbEGYGGIBkMDn5H',
                     'id' => $element['f2050'],
-                    'listFields' => 'f2687'
+                    'listFields' => 'f2687,f2044,f2045,f2139,f2051,f2048'
                 ]);
                 Log::debug("SuburbsDetails : ".$propertyDetails['data']['f2687']);
+                Log::debug("address-1 : ".$propertyDetails['data']['f2044']);
+                Log::debug("address-2 : ".$propertyDetails['data']['f2045']);
+                Log::debug("postal-code : ".$propertyDetails['data']['f2139']);
+                Log::debug("state : ".$propertyDetails['data']['f2051']);
+                Log::debug("country : ".$propertyDetails['data']['f2048']);
+
+                $childArray['address-1'] = $propertyDetails['data']['f2044'];
+                $childArray['address-2'] = $propertyDetails['data']['f2045'];
+                $childArray['postal-code'] = $propertyDetails['data']['f2139'];
+                $childArray['state'] = $propertyDetails['data']['f2051'];
+                $childArray['country'] = $propertyDetails['data']['f2048'];
+
+
                 if(array_key_exists('f2687',$propertyDetails['data']) && $propertyDetails['data']['f2687'] != 0){
                     $suburbDetails = Http::acceptJson()->get('https://api.ontraport.com/1/Suburb',[
                         'Api-Appid' => '2_97024_DalLz1gO5',
@@ -168,7 +188,15 @@ class OPApiController extends Controller
                 'access_person_sms' => $childArray['access_person_sms'],
                 'access_person_email' => $childArray['access_person_email'],
                 'ontraport_link' => $childArray['ontraport_link'],
-                'date_of_inspection' => $childArray['date_of_inspection']
+                'date_of_inspection' => $childArray['date_of_inspection'],
+
+                'address-1'=> array_key_exists('address-1',$childArray)? $childArray['address-1']:'',
+                'address-2'=> array_key_exists('address-2',$childArray)? $childArray['address-2']:'',
+                'postal-code'=> array_key_exists('postal-code',$childArray)? $childArray['postal-code']:'',
+                'state'=> array_key_exists('state',$childArray)? $childArray['state']:'',
+                'country'=> array_key_exists('country',$childArray)? $childArray['country']:'',
+                
+                
             ]);
             //if(OpApi::where('job_id',$childArray['job_id'])->get()->count() == 0) $opapi->save();
         }

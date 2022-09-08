@@ -26,6 +26,13 @@ return new class extends Migration
             $table->string("suburb_lat")->nullable(); 
             $table->string("suburb_long")->nullable(); 
 
+            $table->string("address-1")->nullable();
+            $table->string("address-2")->nullable();
+            $table->string("postal-code")->nullable();
+            $table->string("state")->nullable();
+            $table->string("country")->nullable();
+
+
             //'suburb_state','suburb_lat','suburb_long'
             
 
