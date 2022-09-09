@@ -220,7 +220,7 @@ class OPApiController extends Controller
                 'country'=> array_key_exists('country',$childArray)? $childArray['country']:'',
 
                 'job_type_id'=> array_key_exists('job_type_id',$childArray)? $childArray['job_type_id']:'',
-                'job_type_name'=> array_key_exists('job_type_id',$childArray)? $childArray['job_type_id']:'',
+                'job_type_name'=> array_key_exists('job_type_id',$childArray)? $jobTypeArray[$element['f2006']]:'',
                 
                 
             ]);
