@@ -60,13 +60,32 @@ class OPApiController extends Controller
                                     "712" =>  "VIC",
                                     "713" =>  "NSW"
                                 ];
+
+
+        $jobTypeArray = [
+            "254"=> "Tax Depreciation Schedule",
+            "255"=> "Insurance Replacement Cost Estimate",
+            "256"=> "Preliminary Cost Plan",
+            "257"=> "Sinking Fund Forecast/Capital Works Fund",
+            "258"=> "Construction Cost Estimating Services",
+            "259"=> "Financier Cost Plan",
+            "260"=> "Progress Claim",
+            "261"=> "Council DA Report",
+            "262"=> "Detailed Cost Plan",
+            "263"=> "Expert Witness Report",
+            "264"=> "Asset Register",
+            "265"=> "Phase A Depreciation Estimate",
+            "716"=> "Insurance Replacement Cost Plan",
+            "1175"=> "Capital Gains Tax Estimate",
+            "1201"=> "Development Application Cost Plan"
+        ];
         $response = Http::acceptJson()->get('https://api.ontraport.com/1/Jobs',[
             'Api-Appid' => '2_97024_DalLz1gO5',
             'Api-Key' => 'xbEGYGGIBkMDn5H',
             'start' => $start,
             'range' => $range,
             'condition' => 'f2009='.$inspectionStatus,
-            'listFields' => 'id,f2064//firstname,f2064//lastname,f2064//state,f2009,f2010,f2105,f2106,f2011,f2050'
+            'listFields' => 'id,f2064//firstname,f2064//lastname,f2064//state,f2009,f2010,f2105,f2106,f2011,f2050,f2006'
         ]);
         
         $data =  $response['data'];
@@ -83,6 +102,9 @@ class OPApiController extends Controller
 
             $childArray['access_details'] = $element['f2010'];
             $childArray['access_person_type'] = $element['f2105'];
+
+            $childArray['job_type_id'] = $element['f2006'];
+            $childArray['job_type_name'] = $jobTypeArray[$element['f2006']];
 
 
 
@@ -196,6 +218,9 @@ class OPApiController extends Controller
                 'postal-code'=> array_key_exists('postal-code',$childArray)? $childArray['postal-code']:'',
                 'state'=> array_key_exists('state',$childArray)? $childArray['state']:'',
                 'country'=> array_key_exists('country',$childArray)? $childArray['country']:'',
+
+                'job_type_id'=> array_key_exists('job_type_id',$childArray)? $childArray['job_type_id']:'',
+                'job_type_name'=> array_key_exists('job_type_id',$childArray)? $childArray['job_type_id']:'',
                 
                 
             ]);

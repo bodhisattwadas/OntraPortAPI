@@ -22,6 +22,11 @@ return new class extends Migration
             $table->string("inspection_status")->nullable(); 
             $table->string("inspection_status_name")->nullable();
             
+            $table->string("job_type_id")->nullable();
+            $table->string("job_type_name")->nullable();
+
+
+            
             $table->string("suburb_state")->nullable(); 
             $table->string("suburb_lat")->nullable(); 
             $table->string("suburb_long")->nullable(); 
