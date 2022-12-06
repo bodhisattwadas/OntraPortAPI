@@ -143,15 +143,17 @@ class OPApiController extends Controller
                     'Api-Appid' => '2_97024_DalLz1gO5',
                     'Api-Key' => 'xbEGYGGIBkMDn5H',
                     'id' => $element['f2050'],
-                    'listFields' => 'f2687,f2044,f2045,f2139,f2051,f2048'
+                    'listFields' => 'f2687,f2044,f2045,,f2046,f2139,f2051,f2048'
                 ]);
                 Log::debug("SuburbsDetails : ".$propertyDetails['data']['f2687']);
+                Log::debug("Suburb/Town : ".$propertyDetails['data']['f2046']);
                 Log::debug("address-1 : ".$propertyDetails['data']['f2044']);
                 Log::debug("address-2 : ".$propertyDetails['data']['f2045']);
                 Log::debug("postal-code : ".$propertyDetails['data']['f2139']);
                 Log::debug("state : ".$propertyDetails['data']['f2051']);
                 Log::debug("country : ".$propertyDetails['data']['f2048']);
 
+                $childArray['suburb-town'] = $propertyDetails['data']['f2046'];
                 $childArray['address-1'] = $propertyDetails['data']['f2044'];
                 $childArray['address-2'] = $propertyDetails['data']['f2045'];
                 $childArray['postal-code'] = $propertyDetails['data']['f2139'];
@@ -213,6 +215,7 @@ class OPApiController extends Controller
                 'ontraport_link' => $childArray['ontraport_link'],
                 'date_of_inspection' => $childArray['date_of_inspection'],
 
+                'suburb-town'=> array_key_exists('suburb-town',$childArray)? $childArray['suburb-town']:'',
                 'address-1'=> array_key_exists('address-1',$childArray)? $childArray['address-1']:'',
                 'address-2'=> array_key_exists('address-2',$childArray)? $childArray['address-2']:'',
                 'postal-code'=> array_key_exists('postal-code',$childArray)? $childArray['postal-code']:'',
