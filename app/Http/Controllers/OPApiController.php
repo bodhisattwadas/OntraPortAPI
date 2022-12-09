@@ -18,20 +18,51 @@ class OPApiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function _fetchDetails(){
-        $start = SettingsModel::where('id',1)->get()->first()->start;
-        $range = SettingsModel::where('id',1)->get()->first()->range;
-        $upperLimit = SettingsModel::where('id',1)->get()->first()->upperLimit;
+        // $start = SettingsModel::where('id',1)->get()->first()->start;
+        // $range = SettingsModel::where('id',1)->get()->first()->range;
+        // $upperLimit = SettingsModel::where('id',1)->get()->first()->upperLimit;
        
-        $this->_getDetails('269',$start,$range);
-        $this->_getDetails('270',$start,$range);
-        $this->_getDetails('271',$start,$range);
+        // $this->_getDetails('269',$start,$range);
+        // $this->_getDetails('270',$start,$range);
+        // $this->_getDetails('271',$start,$range);
 
-        if($start<$upperLimit){
-            SettingsModel::where('id',1)->update(['start'=>$start+$range]);
-        }else{
-            SettingsModel::where('id',1)->update(['start'=>1]);
-        }
+        // if($start<$upperLimit){
+        //     SettingsModel::where('id',1)->update(['start'=>$start+$range]);
+        // }else{
+        //     SettingsModel::where('id',1)->update(['start'=>1]);
+        // }
+        $this->_updateInspectionStatus();
         
+    }
+    public function _updateInspectionStatus(){
+        $start = SettingsModel::where('id',1)->get()->first()->startCheck;
+        $range = SettingsModel::where('id',1)->get()->first()->rangeCheck;
+        $end = OPApi::count();
+        $listOfJobs = OPApi::where('id','>=',$start)
+                    ->where('id','<=',$end)
+                    ->limit($range)
+                    ->pluck('job_id')->toArray();
+                    // ->get(['id','job_id']);
+        Log::debug(implode(",",$listOfJobs));
+        $response = Http::acceptJson()->get('https://api.ontraport.com/1/Jobs',[
+            'Api-Appid' => '2_97024_DalLz1gO5',
+            'Api-Key' => 'xbEGYGGIBkMDn5H',
+            'ids' => implode(",",$listOfJobs),
+            'listFields' => 'id,f2009'
+        ]);
+        
+        $data =  $response['data'];
+        Log::debug($data);
+        foreach($data as $element){
+            if(in_array($element['id'],$listOfJobs)){
+                OPApi::where('job_id',$element['id'])
+                    ->update(['inspection_status'=>$element['f2009']]);
+            }
+            else{
+                OPApi::where('job_id',$element['id'])
+                    ->update(['inspection_status'=>'deleted']);
+            };
+        }
     }
    
     private function _getDetails($inspectionStatus,$start,$range){

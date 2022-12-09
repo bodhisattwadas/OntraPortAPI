@@ -19,12 +19,16 @@ return new class extends Migration
             $table->bigInteger('start');
             $table->integer('range')->nullable();
             $table->integer('upperLimit')->nullable();
+            $table->bigInteger('startCheck')->nullable();
+            $table->bigInteger('rangeCheck')->nullable();
             $table->timestamps();
         });
         $settings = new SettingsModel([
             'start' => 1,
             'range' => 10,
             'upperLimit' => 2000,
+            'startCheck' => 1,
+            'rangeCheck' => 10,
         ]);
         $settings->save();
     }
