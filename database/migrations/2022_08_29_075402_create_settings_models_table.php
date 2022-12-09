@@ -28,7 +28,7 @@ return new class extends Migration
             'range' => 10,
             'upperLimit' => 2000,
             'startCheck' => 1,
-            'rangeCheck' => 10,
+            'rangeCheck' => 30,
         ]);
         $settings->save();
     }
