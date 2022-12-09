@@ -55,7 +55,7 @@ class OPApiController extends Controller
         foreach($data as $element){
             if(in_array($element['id'],$listOfJobs)){
                 OPApi::where('job_id',$element['id'])
-                    ->update(['inspection_status'=>$element['f2009']]);
+                    ->update([['inspection_status'=>$element['f2009']],['inspection_status_name' => $inspectionStatusArray[$element['f2009']]]]);
             }
             else{
                 OPApi::where('job_id',$element['id'])
@@ -70,10 +70,24 @@ class OPApiController extends Controller
     }
    
     private function _getDetails($inspectionStatus,$start,$range){
+        // $inspectionStatusArray = [
+        //                             '269'=>'Booked',
+        //                             '270'=>'To Be Scheduled',
+        //                             '271'=>'Access Details Required'
+        //                         ]; 
         $inspectionStatusArray = [
-                                    '269'=>'Booked',
-                                    '270'=>'To Be Scheduled',
-                                    '271'=>'Access Details Required'
+                                    "0" => "Not available data",
+                                    "266"=> "Canceled",
+                                    "267"=> "Reschedule",
+                                    "268"=> "Inspection Completed",
+                                    "269"=> "Booked",
+                                    "270"=> "To Be Scheduled",
+                                    "271"=> "Access Details Required",
+                                    "471"=> "Scheduled in Calendar",
+                                    "473"=> "Not required",
+                                    "553"=> "Removed from GCal",
+                                    "563"=> "New Booking",
+                                    "1313"=> "To Be Rescheduled"
                                 ];
         $accessPersonTypeArray = [ 
                                     "0" =>"N/A",
