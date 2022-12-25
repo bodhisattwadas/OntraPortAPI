@@ -35,6 +35,20 @@ class OPApiController extends Controller
         
     }
     public function _updateInspectionStatus(){
+        $inspectionStatusArray = [
+            "0" => "Not available data",
+            "266"=> "Canceled",
+            "267"=> "Reschedule",
+            "268"=> "Inspection Completed",
+            "269"=> "Booked",
+            "270"=> "To Be Scheduled",
+            "271"=> "Access Details Required",
+            "471"=> "Scheduled in Calendar",
+            "473"=> "Not required",
+            "553"=> "Removed from GCal",
+            "563"=> "New Booking",
+            "1313"=> "To Be Rescheduled"
+        ];
         $start = SettingsModel::where('id',1)->get()->first()->startCheck;
         $range = SettingsModel::where('id',1)->get()->first()->rangeCheck;
         $end = OPApi::count();
@@ -110,7 +124,20 @@ class OPApiController extends Controller
                                     "713" =>  "NSW"
                                 ];
 
-
+        $jobStatusArray = [
+            "336"=> "Report Sent",
+            "337"=>"Waiting on Payment",
+            "338"=>"In Progress",
+            "339"=>"Pending Inspection",
+            "340"=>"Waiting On Info",
+            "341"=>"Pending Admin Review",
+            "342"=>"On Hold",
+            "477"=>"Send Report",
+            "498"=>"Report Sent - Awaiting Payment",
+            "517"=>"Info Submitted",
+            "548"=>"New Booking",
+            "586"=>"Cancelled"
+        ] ;                     
         $jobTypeArray = [
             "254"=> "Tax Depreciation Schedule",
             "255"=> "Insurance Replacement Cost Estimate",
@@ -134,7 +161,7 @@ class OPApiController extends Controller
             'start' => $start,
             'range' => $range,
             'condition' => 'f2009='.$inspectionStatus,
-            'listFields' => 'id,f2064//firstname,f2064//lastname,f2064//state,f2009,f2010,f2105,f2106,f2011,f2050,f2006'
+            'listFields' => 'id,f2064//firstname,f2064//lastname,f2064//state,f2009,f2010,f2105,f2106,f2011,f2050,f2006,f2021'
         ]);
         
         $data =  $response['data'];
@@ -153,8 +180,12 @@ class OPApiController extends Controller
             $childArray['access_person_type'] = $element['f2105'];
 
             $childArray['job_type_id'] = $element['f2006'];
-            $childArray['job_type_name'] = $jobTypeArray[$element['f2006']];
+           // $childArray['job_type_name'] = $jobTypeArray[$element['f2006']];
+            $childArray['job_type_name'] = (array_key_exists($element['f2006'],$jobTypeArray))?$jobTypeArray[$element['f2006']]:"Undefined job type ID";
 
+            $childArray['job_status_id'] = $element['f2021'];
+            //$childArray['job_status_name'] = $jobStatusArray[$element['f2021']];
+            $childArray['job_status_name'] = (array_key_exists($element['f2021'],$jobStatusArray))?$jobStatusArray[$element['f2021']]:"Undefined job status ID";
 
 
             $childArray['access_person'] = $element['f2106'];
@@ -272,7 +303,10 @@ class OPApiController extends Controller
                 'country'=> array_key_exists('country',$childArray)? $childArray['country']:'',
 
                 'job_type_id'=> array_key_exists('job_type_id',$childArray)? $childArray['job_type_id']:'',
-                'job_type_name'=> array_key_exists('job_type_id',$childArray)? $jobTypeArray[$element['f2006']]:'',
+                'job_type_name'=> array_key_exists('job_type_id',$childArray)? $childArray['job_type_name']:'',
+                
+                'job_status_id'=> array_key_exists('job_status_id',$childArray)? $childArray['job_status_id']:'',
+                'job_status_name'=> array_key_exists('job_status_name',$childArray)? $childArray['job_status_name']:'',
                 
                 
             ]);

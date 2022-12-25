@@ -24,6 +24,9 @@ return new class extends Migration
             
             $table->string("job_type_id")->nullable();
             $table->string("job_type_name")->nullable();
+            
+            $table->string("job_status_id")->nullable();
+            $table->string("job_status_name")->nullable();
 
 
             
