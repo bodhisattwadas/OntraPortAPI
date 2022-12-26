@@ -56,7 +56,7 @@ class OPApiController extends Controller
                     ->where('id','<=',$end)
                     ->limit($range)
                     ->pluck('job_id')->toArray();
-        Log::debug(implode(",",$listOfJobs));
+       // Log::debug(implode(",",$listOfJobs));
         $response = Http::acceptJson()->get('https://api.ontraport.com/1/Jobs',[
             'Api-Appid' => '2_97024_DalLz1gO5',
             'Api-Key' => 'xbEGYGGIBkMDn5H',
@@ -65,13 +65,17 @@ class OPApiController extends Controller
         ]);
         
         $data =  $response['data'];
-        Log::debug($data);
+       // Log::debug($data);
         foreach($data as $element){
             if(in_array($element['id'],$listOfJobs)){
+                Log::debug("Not deleted job : ".$element['id']);
                 OPApi::where('job_id',$element['id'])
-                    ->update([['inspection_status'=>$element['f2009']],['inspection_status_name' => $inspectionStatusArray[$element['f2009']]]]);
+                    ->update(['inspection_status'=>$element['f2009'],'inspection_status_name' => $inspectionStatusArray[$element['f2009']]]);
+                    // ->update([['inspection_status'=>$element['f2009']],['inspection_status_name' => $inspectionStatusArray[$element['f2009']]]]);
             }
             else{
+                Log::debug("Deleted job : ".$element['id']);
+
                 OPApi::where('job_id',$element['id'])
                     ->update(['inspection_status'=>'deleted']);
             };
@@ -207,7 +211,7 @@ class OPApiController extends Controller
                 $childArray['access_person_sms'] = "";
                 $childArray['access_person_email'] = "";
             }
-            Log::debug("PropertyDetails : ".$element['f2050']);
+           // Log::debug("PropertyDetails : ".$element['f2050']);
 
             
             /**
@@ -225,13 +229,13 @@ class OPApiController extends Controller
                     'id' => $element['f2050'],
                     'listFields' => 'f2687,f2044,f2045,,f2046,f2139,f2051,f2048'
                 ]);
-                Log::debug("SuburbsDetails : ".$propertyDetails['data']['f2687']);
-                Log::debug("Suburb/Town : ".$propertyDetails['data']['f2046']);
-                Log::debug("address-1 : ".$propertyDetails['data']['f2044']);
-                Log::debug("address-2 : ".$propertyDetails['data']['f2045']);
-                Log::debug("postal-code : ".$propertyDetails['data']['f2139']);
-                Log::debug("state : ".$propertyDetails['data']['f2051']);
-                Log::debug("country : ".$propertyDetails['data']['f2048']);
+                // Log::debug("SuburbsDetails : ".$propertyDetails['data']['f2687']);
+                //  Log::debug("Suburb/Town : ".$propertyDetails['data']['f2046']);
+                // Log::debug("address-1 : ".$propertyDetails['data']['f2044']);
+                // Log::debug("address-2 : ".$propertyDetails['data']['f2045']);
+                // Log::debug("postal-code : ".$propertyDetails['data']['f2139']);
+                // Log::debug("state : ".$propertyDetails['data']['f2051']);
+                // Log::debug("country : ".$propertyDetails['data']['f2048']);
 
                 $childArray['suburb-town'] = $propertyDetails['data']['f2046'];
                 $childArray['address-1'] = $propertyDetails['data']['f2044'];
@@ -265,7 +269,7 @@ class OPApiController extends Controller
             }
             $childArray['ontraport_link'] = "https://app.ontraport.com/#!/o_jobs10006/edit&id=".$element['id'];
             $childArray['date_of_inspection'] = $element['f2011'];
-            Log::debug($childArray);
+           // Log::debug($childArray);
 
             /**
              * Database insert
