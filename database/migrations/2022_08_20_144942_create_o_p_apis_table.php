@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('o_p_apis', function (Blueprint $table) {
             $table->id();
             $table->string("job_id")->unique();   
+            $table->string("unique_id")->nullable();   
             $table->string("client_f_name")->nullable();   
             $table->string("client_l_name")->nullable(); 
 

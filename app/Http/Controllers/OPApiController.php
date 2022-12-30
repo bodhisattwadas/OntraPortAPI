@@ -161,7 +161,7 @@ class OPApiController extends Controller
             'start' => $start,
             'range' => $range,
             'condition' => 'f2009='.$inspectionStatus,
-            'listFields' => 'id,f2064//firstname,f2064//lastname,f2064//state,f2009,f2010,f2105,f2106,f2011,f2050,f2006,f2021'
+            'listFields' => 'id,unique_id,f2064//firstname,f2064//lastname,f2064//state,f2009,f2010,f2105,f2106,f2011,f2050,f2006,f2021'
         ]);
         
         $data =  $response['data'];
@@ -169,6 +169,7 @@ class OPApiController extends Controller
         foreach($data as $element){
             $childArray = Array();
             $childArray['job_id'] = $element['id'];
+            $childArray['unique_id'] = (array_key_exists('unique_id',$element))?$element['unique_id']:"";
 
             
             $childArray['client_f_name'] = (array_key_exists('f2064//firstname',$element))?$element['f2064//firstname']:"";
@@ -275,6 +276,7 @@ class OPApiController extends Controller
                     'job_id' => $childArray['job_id'],
                 ],
                 [
+                'unique_id' => $childArray['unique_id'],
                 'client_f_name' => $childArray['client_f_name'],
                 'client_l_name' => $childArray['client_l_name'],
 
