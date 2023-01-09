@@ -25,6 +25,7 @@ class OPApiController extends Controller
         $this->_getDetails('269',$start,$range);
         $this->_getDetails('270',$start,$range);
         $this->_getDetails('271',$start,$range);
+        $this->_getDetails('471',$start,$range);
 
         if($start<$upperLimit){
             SettingsModel::where('id',1)->update(['start'=>$start+$range]);
